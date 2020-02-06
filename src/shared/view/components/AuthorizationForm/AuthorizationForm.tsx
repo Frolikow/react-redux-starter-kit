@@ -45,7 +45,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
 
     return (
       <div className={b()}>
-        <span>Зарегистрироваться -></span>
+        <span className={b('change-form')} >Зарегистрироваться</span>
         <h2>Войти</h2>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
           <span className={b('item')}>
@@ -78,8 +78,12 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
               Войти
             </button>
           </span>
-          <label>
-            <input type="checkbox" onClick={this.handleUnsubscribeChange} defaultChecked={this.state.unsubscribe} />
+          <label className={b('unsubscribe')}>
+            <input
+              type="checkbox"
+              onClick={this.handleUnsubscribeChange}
+              defaultChecked={this.state.unsubscribe}
+            />
             Я не хочу получать новостную рассылку
         </label>
         </form>
