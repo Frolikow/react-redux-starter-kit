@@ -3,7 +3,7 @@ export interface IProfile {
   nickname: string;
   name: string;
   bio: string;
-  avatarURL: string;
+  avatarURL?: string;
 }
 
 export interface IRepository {

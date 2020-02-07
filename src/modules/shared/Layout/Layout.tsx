@@ -3,7 +3,6 @@ import block from 'bem-cn';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import { withTranslation, ITranslationProps } from 'services/i18n';
-import { AuthorizationForm } from 'shared/view/components/AuthorizationForm/AuthorizationForm';
 // import { RegistrationForm } from 'shared/view/components/RegistrationForm/RegistrationForm';
 import { withAsyncFeatures } from 'core';
 import * as features from 'features';
@@ -15,7 +14,7 @@ interface IOwnProps {
 }
 
 interface IFeatureProps {
-  profileFeatureEntry: features.profile.Entry;
+  authorizationFeatureEntry: features.authorization.Entry;
 }
 
 type IProps = IOwnProps & IFeatureProps & RouteComponentProps & ITranslationProps;
@@ -24,11 +23,11 @@ const b = block('layout');
 
 class LayoutComponent extends React.Component<IProps> {
   public render() {
-
+    const {children} = this.props;
     return (
       <div className={b()}>
         <div className={b('content')}>
-          <AuthorizationForm />
+          {children}
           {/* <RegistrationForm /> */}
         </div>
       </div>
@@ -38,7 +37,7 @@ class LayoutComponent extends React.Component<IProps> {
 
 const wrappedComponent = withTranslation()(withRouter(LayoutComponent));
 const Layout = withAsyncFeatures({
-  profileFeatureEntry: features.profile.loadEntry,
+  authorizationFeatureEntry: features.authorization.loadEntry,
 })(wrappedComponent);
 
 export { Layout, LayoutComponent, IProps as ILayoutProps };

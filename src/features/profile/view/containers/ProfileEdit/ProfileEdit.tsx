@@ -60,7 +60,7 @@ class ProfileEditComponent extends React.PureComponent<IProps> {
     return (
       <form onSubmit={handleSubmit} className={b()}>
         <div className={b('avatar')}>
-          <ProfileAvatar avatarURL={avatarURL} size="big" />
+          <ProfileAvatar avatarURL={avatarURL!} size="big" />
         </div>
         <div className={b('fields')}>
           <div className={b('field')}>

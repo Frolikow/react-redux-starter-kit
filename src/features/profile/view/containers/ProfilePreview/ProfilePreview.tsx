@@ -54,7 +54,7 @@ class ProfilePreviewComponent extends React.PureComponent<IProps, IState> {
           onClick={this.handleAvatarClick}
           onKeyPress={this.handleAvatarKeyPress}
         >
-          <ProfileAvatar avatarURL={avatarURL} size="small" />
+          <ProfileAvatar avatarURL={avatarURL!} size="small" />
         </div>
         <Popover
           open={isOpen}
