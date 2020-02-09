@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
+import { Link } from 'react-router-dom';
 import block from 'bem-cn';
 import { autobind } from 'core-decorators';
 
@@ -45,7 +46,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
 
     return (
       <div className={b()}>
-        <span className={b('change-form')} >Зарегистрироваться</span>
+        <Link to='registration' className={b('change-form')} >Зарегистрироваться</Link>
         <h2>Войти</h2>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
           <span className={b('item')}>
