@@ -4,5 +4,6 @@ export const routes = buildRouteTree({
   login: {
     authorization: null,
     registration: null,
+    passwordReset: null,
   },
 });

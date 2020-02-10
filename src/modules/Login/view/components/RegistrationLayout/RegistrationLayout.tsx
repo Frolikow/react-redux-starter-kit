@@ -6,26 +6,24 @@ import { withAsyncFeatures } from 'core';
 import { useTranslation, tKeys } from 'services/i18n';
 
 import { Layout } from 'modules/shared';
-import { AuthorizationForm } from 'shared/view/components/AuthorizationForm/AuthorizationForm'; // ??????
+import { RegistrationForm } from 'shared/view/components/RegistrationForm/RegistrationForm';
 import './RegistrationLayout.scss';
 
 interface IFeatureProps {
-  authorizationFeatureEntry: features.authorization.Entry;
+  registrationFeatureEntry: features.registration.Entry;
 }
 
 type IProps = IFeatureProps;
 
 const b = block('registration-layout');
 
-function RegistrationLayoutComponent(/* props: IProps */) {
-  // const { authorizationFeatureEntry: { containers } } = props;
-  // const { ProfileEdit } = containers;
+function RegistrationLayoutComponent() {
   const { t } = useTranslation();
 
   return (
     <Layout title={t(tKeys.features.profile.editProfile)}>
       <div className={b()}>
-        <AuthorizationForm /> {/* ????? */}
+        <RegistrationForm />
       </div>
     </Layout>
   );

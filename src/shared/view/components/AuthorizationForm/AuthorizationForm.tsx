@@ -14,7 +14,6 @@ type State = {
   isVisiblePassword: boolean;
   email: string | null;
   password: string | null;
-  unsubscribe: boolean;
 }
 
 
@@ -27,7 +26,6 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
     isVisiblePassword: false,
     email: null,
     password: null,
-    unsubscribe: false,
   }
 
   public render() {
@@ -50,6 +48,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
         <h2>Войти</h2>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
           <span className={b('item')}>
+            <span className={b('input-title')}>Email</span>
             <input
               className={b('input')}
               type="email"
@@ -61,47 +60,37 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
           </span>
 
           <span className={b('item')}>
-            <input
-              className={b('input')}
-              type={isVisiblePassword ? "text" : "password"}
-              required
-              value={this.state.password || ''}
-              onChange={this.handlePasswordChange}
-              ref={this.passwordInput}
-            />
-            <span className={b('password-icon')} onClick={this.handleShowPasswordClick}>
-              {isVisiblePassword ? 'HIDE' : 'SHOW'}
+            <span className={b('input-title')}>Пароль</span>
+            <span className={b('password')}>
+              <input
+                className={b('input')}
+                type={isVisiblePassword ? "text" : "password"}
+                required
+                value={this.state.password || ''}
+                onChange={this.handlePasswordChange}
+                ref={this.passwordInput}
+              />
+              <span className={b('password-icon')} onClick={this.handleShowPasswordClick}>
+                {isVisiblePassword ? 'HIDE' : 'SHOW'}
+              </span>
             </span>
           </span>
+          <Link to='passwordReset' className={b('password-reset')} >Восстановить пароль</Link>
 
           <span className={b('item')}>
             <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit}>
               Войти
             </button>
           </span>
-          <label className={b('unsubscribe')}>
-            <input
-              type="checkbox"
-              onClick={this.handleUnsubscribeChange}
-              defaultChecked={this.state.unsubscribe}
-            />
-            Я не хочу получать новостную рассылку
-        </label>
         </form>
       </div>
-
     );
   }
 
   @autobind
   private handleFormSubmit() {
-    const { email, password, unsubscribe } = this.state;
-    console.log('AuthorizationForm', email, password, unsubscribe);
-  }
-
-  @autobind
-  private handleUnsubscribeChange(event: any) {
-    this.setState({ unsubscribe: event.target.checked });
+    const { email, password } = this.state;
+    console.log('AuthorizationForm', email, password);
   }
 
   @autobind
@@ -116,15 +105,18 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
 
   @autobind
   private handleShowPasswordClick() {
-    if (this.passwordInput.current) { // does not work
-      const el = this.passwordInput.current;
-      el.focus();
-      el.setSelectionRange(3, el.value.length);
-    }
-
     this.setState(state => ({
       isVisiblePassword: !state.isVisiblePassword,
-    }));
+    }), this.setCaretPosition);
+  }
+
+  @autobind
+  private setCaretPosition() {
+    if (this.passwordInput.current) {
+      const el = this.passwordInput.current;
+      el.focus();
+      el.selectionStart = el.value.length;
+    }
   }
 }
 

@@ -28,7 +28,6 @@ class LayoutComponent extends React.Component<IProps> {
       <div className={b()}>
         <div className={b('content')}>
           {children}
-          {/* <RegistrationForm /> */}
         </div>
       </div>
     );

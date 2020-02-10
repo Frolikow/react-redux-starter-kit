@@ -6,7 +6,7 @@ import { withAsyncFeatures } from 'core';
 import { useTranslation, tKeys } from 'services/i18n';
 
 import { Layout } from 'modules/shared';
-import { AuthorizationForm } from 'shared/view/components/AuthorizationForm/AuthorizationForm'; // ?????
+import { PasswordResetForm } from 'shared/view/components/PasswordResetForm/PasswordResetForm';
 import './PasswordResetLayout.scss';
 
 interface IFeatureProps {
@@ -25,7 +25,7 @@ function PasswordResetLayoutComponent(/* props: IProps */) {
   return (
     <Layout title={t(tKeys.features.profile.editProfile)}>
       <div className={b()}>
-        <AuthorizationForm /> {/* ??? */}
+        <PasswordResetForm /> {/* ??? */}
       </div>
     </Layout>
   );
