@@ -12,6 +12,7 @@ type Props = {
 
 type State = {
   email: string | null;
+  isCorrectEmail: boolean;
 }
 
 
@@ -20,6 +21,7 @@ const b = block('password-reset-form');
 class PasswordResetForm extends React.PureComponent<Props, State> {
   public state: State = {
     email: null,
+    isCorrectEmail: false,
   }
 
   public render() {
@@ -34,6 +36,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
     const { submitButtonText } = this.props;
+    const { isCorrectEmail } = this.state;
 
     return (
       <div className={b()}>
@@ -54,14 +57,18 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
           </span>
 
           <span className={b('item')}>
-            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit}>
+            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit} disabled={!isCorrectEmail}>
               Отправить новый пароль
             </button>
           </span>
         </form>
       </div>
-
     );
+  }
+
+  @autobind
+  private checkEmail(email: string) {
+    this.setState({ isCorrectEmail: /(\w{1,}\@\w{1,}[\.]\w{1,})/g.test(email) })
   }
 
   @autobind
@@ -72,6 +79,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
 
   @autobind
   private handleEmailChange(event: any) {
+    this.checkEmail(event.target.value);
     this.setState({ email: event.target.value });
   }
 }

@@ -25,7 +25,7 @@ function PasswordResetLayoutComponent(/* props: IProps */) {
   return (
     <Layout title={t(tKeys.features.profile.editProfile)}>
       <div className={b()}>
-        <PasswordResetForm /> {/* ??? */}
+        <PasswordResetForm />
       </div>
     </Layout>
   );

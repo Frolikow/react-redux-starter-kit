@@ -86,5 +86,10 @@
     background-color: #f00;
     color: #fff;
     cursor: pointer;
+
+    &:disabled {
+      background-color: #f004;
+      cursor: default;
+    }
   }
 }

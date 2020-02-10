@@ -11,9 +11,10 @@ type Props = {
 }
 
 type State = {
-  isVisiblePassword: boolean;
   email: string | null;
+  isCorrectEmail: boolean
   password: string | null;
+  isVisiblePassword: boolean;
 }
 
 
@@ -23,9 +24,10 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
   private passwordInput = React.createRef<HTMLInputElement>();
 
   public state: State = {
-    isVisiblePassword: false,
     email: null,
+    isCorrectEmail: false,
     password: null,
+    isVisiblePassword: false,
   }
 
   public render() {
@@ -40,7 +42,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
     const { submitButtonText } = this.props;
-    const { isVisiblePassword } = this.state;
+    const { isVisiblePassword, password, isCorrectEmail } = this.state;
 
     return (
       <div className={b()}>
@@ -78,13 +80,18 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
           <Link to='passwordReset' className={b('password-reset')} >Восстановить пароль</Link>
 
           <span className={b('item')}>
-            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit}>
+            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit} disabled={!isCorrectEmail || !password}>
               Войти
             </button>
           </span>
         </form>
       </div>
     );
+  }
+
+  @autobind
+  private checkEmail(email: string) {
+    this.setState({ isCorrectEmail: /(\w{1,}\@\w{1,}[\.]\w{1,})/g.test(email) })
   }
 
   @autobind
@@ -95,6 +102,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
 
   @autobind
   private handleEmailChange(event: any) {
+    this.checkEmail(event.target.value);
     this.setState({ email: event.target.value });
   }
 
