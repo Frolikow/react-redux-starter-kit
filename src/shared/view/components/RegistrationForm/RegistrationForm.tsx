@@ -15,6 +15,14 @@ type State = {
   email: string | null;
   password: string | null;
   unsubscribe: boolean;
+  passwordOptions: PasswordOptions;
+}
+
+type PasswordOptions = {
+  hasOneLowercaseLetter: boolean;
+  hasOneUppercaseLetter: boolean;
+  hasNumber: boolean;
+  hasMinimumLength: boolean;
 }
 
 
@@ -28,6 +36,12 @@ class RegistrationForm extends React.PureComponent<Props, State> {
     email: null,
     password: null,
     unsubscribe: false,
+    passwordOptions: {
+      hasOneLowercaseLetter: false,
+      hasOneUppercaseLetter: false,
+      hasNumber: false,
+      hasMinimumLength: false,
+    },
   }
 
   public render() {
@@ -42,11 +56,15 @@ class RegistrationForm extends React.PureComponent<Props, State> {
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
     const { submitButtonText } = this.props;
-    const { isVisiblePassword } = this.state;
+    const { isVisiblePassword, passwordOptions: {
+      hasOneLowercaseLetter,
+      hasOneUppercaseLetter,
+      hasNumber,
+      hasMinimumLength } } = this.state;
 
     return (
       <div className={b()}>
-        <Link to='authorization' className={b('change-form')} >Войти</Link>
+        <Link to='authorization' className={b('change-form')}>Войти &#8658;</Link>
         <h2>Зарегистрироваться</h2>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
           <span className={b('item')}>
@@ -78,8 +96,25 @@ class RegistrationForm extends React.PureComponent<Props, State> {
             </span>
           </span>
 
+          <div className={b('password-check')}>
+            <div>
+              <p className={b('password-check-option', { correct: hasOneLowercaseLetter })}> Одна строчная буква</p>
+              <p className={b('password-check-option', { correct: hasOneUppercaseLetter })}> Одна заглавная буква</p>
+            </div>
+            <div>
+              <p className={b('password-check-option', { correct: hasNumber })}> Одна цифра</p>
+              <p className={b('password-check-option', { correct: hasMinimumLength })}> Минимум 8 знаков</p>
+            </div>
+          </div>
+
           <span className={b('item')}>
-            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit}>
+            <button
+              className={b('submit')}
+              type="submit"
+              value={submitButtonText}
+              onClick={this.handleFormSubmit}
+              disabled={Object.values(this.state.passwordOptions).some(i => i === false)}
+            >
               Зарегистрироваться
             </button>
           </span>
@@ -95,6 +130,14 @@ class RegistrationForm extends React.PureComponent<Props, State> {
       </div>
 
     );
+  }
+
+  private checkPassword(password: string) {
+    const hasOneLowercaseLetter = /[a-z]/g.test(password);
+    const hasOneUppercaseLetter = /[A-Z]/g.test(password);
+    const hasNumber = /\d/g.test(password);
+    const hasMinimumLength = password.length >= 8;
+    this.setState({ passwordOptions: { hasOneLowercaseLetter, hasOneUppercaseLetter, hasNumber, hasMinimumLength } })
   }
 
   @autobind
@@ -115,6 +158,7 @@ class RegistrationForm extends React.PureComponent<Props, State> {
 
   @autobind
   private handlePasswordChange(event: any) {
+    this.checkPassword(event.target.value);
     this.setState({ password: event.target.value });
   }
 

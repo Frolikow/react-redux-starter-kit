@@ -44,7 +44,7 @@ class AuthorizationForm extends React.PureComponent<Props, State> {
 
     return (
       <div className={b()}>
-        <Link to='registration' className={b('change-form')} >Зарегистрироваться</Link>
+        <Link to='registration' className={b('change-form')}>Зарегистрироваться &#8658;</Link>
         <h2>Войти</h2>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
           <span className={b('item')}>

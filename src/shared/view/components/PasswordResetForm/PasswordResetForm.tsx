@@ -37,7 +37,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
 
     return (
       <div className={b()}>
-        <Link to='authorization' className={b('change-form')} >Войти</Link>
+        <Link to='authorization' className={b('change-form')}>Войти &#8658;</Link>
         <h2>Восстановить пароль</h2>
         <span className={b('description')}>Напомните вашу почту, и мы вышлем новый пароль.</span>
         <form onSubmit={handleSubmit} className={b('form')} action="data:text/plain;,">
