@@ -6,7 +6,7 @@ import { withAsyncFeatures } from 'core';
 import { useTranslation, tKeys } from 'services/i18n';
 
 import { Layout } from 'modules/shared';
-import { PasswordResetForm } from 'shared/view/components/PasswordResetForm/PasswordResetForm';
+import { PasswordResetForm } from 'shared/view/components';
 import './PasswordResetLayout.scss';
 
 interface IFeatureProps {
@@ -17,9 +17,7 @@ type IProps = IFeatureProps;
 
 const b = block('password-reset-layout');
 
-function PasswordResetLayoutComponent(/* props: IProps */) {
-  // const { authorizationFeatureEntry: { containers } } = props;
-  // const { ProfileEdit } = containers;
+function PasswordResetLayoutComponent() {
   const { t } = useTranslation();
 
   return (

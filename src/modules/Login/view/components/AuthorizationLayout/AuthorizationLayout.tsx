@@ -5,8 +5,8 @@ import * as features from 'features';
 import { withAsyncFeatures } from 'core';
 import { useTranslation, tKeys } from 'services/i18n';
 
-import { Layout } from '../../../../shared';
-import { AuthorizationForm } from 'shared/view/components/AuthorizationForm/AuthorizationForm';
+import { Layout } from 'modules/shared';
+import { AuthorizationForm } from 'shared/view/components';
 import './AuthorizationLayout.scss';
 
 interface IFeatureProps {
@@ -17,9 +17,7 @@ type IProps = IFeatureProps;
 
 const b = block('authorization-layout');
 
-function AuthorizationLayoutComponent(/* props: IProps */) {
-  // const { authorizationFeatureEntry: { containers } } = props;
-  // const { ProfileEdit } = containers;
+function AuthorizationLayoutComponent() {
   const { t } = useTranslation();
 
   return (

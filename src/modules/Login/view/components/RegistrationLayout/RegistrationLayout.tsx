@@ -6,7 +6,7 @@ import { withAsyncFeatures } from 'core';
 import { useTranslation, tKeys } from 'services/i18n';
 
 import { Layout } from 'modules/shared';
-import { RegistrationForm } from 'shared/view/components/RegistrationForm/RegistrationForm';
+import { RegistrationForm } from 'shared/view/components';
 import './RegistrationLayout.scss';
 
 interface IFeatureProps {
