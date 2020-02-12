@@ -1,14 +1,12 @@
 import { makeFeatureEntry } from 'shared/helpers/makeFeatureEntry';
 
 import { actionCreators, selectors, reducer } from './redux';
-// import * as containers from './view/containers';
 
 const entry = makeFeatureEntry({
-  // containers,
   actionCreators,
   selectors,
   reduxEntry: {
-    reducers: { profile: reducer },
+    reducers: { user: reducer },
   },
 });
 

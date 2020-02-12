@@ -33,3 +33,8 @@ export interface IDetailedGithubUser extends IGithubUser {
   realName: string;
   location: null | string;
 }
+
+export type User = {
+  email: string,
+  password: string,
+}

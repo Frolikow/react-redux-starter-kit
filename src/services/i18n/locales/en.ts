@@ -23,6 +23,12 @@ export const en = {
     },
   },
   features: {
+    authorization:{
+      signIn: 'signIn',
+      signUp: 'signUp',
+      passwordReset: 'passwordReset',
+      user: 'User',
+    },
     profile: {
       name: 'Name',
       nickname: 'Nickname',

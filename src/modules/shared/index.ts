@@ -1,1 +1,1 @@
-export { Layout } from './Layout/Layout';
+export { LayoutComponent as Layout } from './Layout/Layout';

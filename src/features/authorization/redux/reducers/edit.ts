@@ -1,12 +1,12 @@
 import * as NS from '../../namespace';
 import { initial } from '../initial';
 
-function editReducer(state: NS.IReduxState['edit'] = initial.edit, action: NS.IAction): NS.IReduxState['edit'] {
+function editReducer(state: NS.IReduxState['user'] = initial.user, action: NS.Action): NS.IReduxState['user'] {
   switch (action.type) {
-    case 'PROFILE:SAVE_PROFILE': {
+    case 'AUTHORIZATION:SIGN_UP_SUCCESS': {
       return {
         ...state,
-        profile: action.payload,
+        email: action.payload,
       };
     }
     default:

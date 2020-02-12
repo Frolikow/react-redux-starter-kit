@@ -1,10 +1,10 @@
 import { IAppReduxState } from 'shared/types/app';
-import { IProfile } from 'shared/types/models';
+import { User } from 'shared/types/models';
 
 function selectFeatureState(state: IAppReduxState) {
-  return state.profile;
+  return state.user;
 }
 
-export function selectProfile(state: IAppReduxState): IProfile {
-  return selectFeatureState(state).edit.profile;
+export function selectUser(state: IAppReduxState): User {
+  return selectFeatureState(state).user;
 }
