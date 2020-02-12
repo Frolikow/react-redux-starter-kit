@@ -1,26 +1,43 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import block from 'bem-cn';
 import { autobind } from 'core-decorators';
 
+import { selectors, actionCreators } from 'features/authorization/redux';
+import { User } from 'shared/types/models';
+import { IAppReduxState } from 'shared/types/app';
 import './PasswordResetForm.scss';
 
-type Props = {
-  submitButtonText?: string;
-}
+type Props = StateProps & IActionProps;
+
+type IActionProps = typeof mapDispatch;
 
 type State = {
-  email: string | null;
+  email: string;
   isCorrectEmail: boolean;
 }
 
+type StateProps = {
+  user: User;
+}
+
+function mapState(state: IAppReduxState): StateProps {
+  return {
+    user: selectors.selectUser(state),
+  };
+}
+
+const mapDispatch = {
+  passwordReset: actionCreators.passwordReset,
+};
 
 const b = block('password-reset-form');
 
 class PasswordResetForm extends React.PureComponent<Props, State> {
   public state: State = {
-    email: null,
+    email: '',
     isCorrectEmail: false,
   }
 
@@ -35,7 +52,6 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
 
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
-    const { submitButtonText } = this.props;
     const { isCorrectEmail } = this.state;
 
     return (
@@ -57,7 +73,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
           </span>
 
           <span className={b('item')}>
-            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit} disabled={!isCorrectEmail}>
+            <button className={b('submit')} type="submit" onClick={this.handleFormSubmit} disabled={!isCorrectEmail}>
               Отправить новый пароль
             </button>
           </span>
@@ -74,7 +90,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
   @autobind
   private handleFormSubmit() {
     const { email } = this.state;
-    console.log('PasswordResetForm', email);
+    this.props.passwordReset({ email })
   }
 
   @autobind
@@ -84,4 +100,6 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
   }
 }
 
-export { PasswordResetForm };
+const connectedComponent = connect(mapState, mapDispatch)(PasswordResetForm);
+
+export { connectedComponent as PasswordResetForm };

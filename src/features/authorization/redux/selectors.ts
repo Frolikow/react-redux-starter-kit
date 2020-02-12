@@ -6,5 +6,5 @@ function selectFeatureState(state: IAppReduxState) {
 }
 
 export function selectUser(state: IAppReduxState): User {
-  return selectFeatureState(state).user;
+  return selectFeatureState(state).data;
 }

@@ -1,7 +1,7 @@
 import { IReduxState } from '../namespace';
 
 const initial: IReduxState = {
-  user: {
+  data: {
     email: '',
     password: '',
   },

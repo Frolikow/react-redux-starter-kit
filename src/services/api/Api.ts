@@ -4,6 +4,8 @@ import {
   IUsersSearchFilters, IRepositoriesSearchFilters, IUsersSearchResults, IRepositoriesSearchResults,
 } from 'shared/types/githubSearch';
 
+import * as FB from 'firebase/app';
+
 import { SearchUserResponse, IDetailedServerUser, SearchRepositoriesResponse } from './types';
 import {
   constructUsersSearchQuery, getTotalPagesFromLinkHeader,
@@ -61,6 +63,25 @@ class Api {
       totalResults: getTotalResults(response.data.total_count),
     };
   }
+
+  public async signUp() {
+    console.log('signUp')
+    console.log(FB);
+    return 'test';
+  }
+
+  public async signIn() {
+    console.log('signIn')
+    console.log(FB);
+    return 'test';
+  }
+
+  public async passwordReset() {
+    console.log('passwordReset')
+    console.log(FB);
+    return 'test';
+  }
+
 }
 
 export { Api };

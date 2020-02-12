@@ -1,19 +1,37 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import block from 'bem-cn';
 import { autobind } from 'core-decorators';
 
+import { selectors, actionCreators } from 'features/authorization/redux';
+import { IAppReduxState } from 'shared/types/app';
+import { User } from 'shared/types/models';
 import './SignInForm.scss';
 
-type Props = {
-  submitButtonText?: string;
+type Props = StateProps & IActionProps;
+
+type IActionProps = typeof mapDispatch;
+
+type StateProps = {
+  user: User;
 }
 
+function mapState(state: IAppReduxState): StateProps {
+  return {
+    user: selectors.selectUser(state),
+  };
+}
+
+const mapDispatch = {
+  signIn: actionCreators.signIn,
+};
+
 type State = {
-  email: string | null;
+  email: string;
   isCorrectEmail: boolean
-  password: string | null;
+  password: string;
   isVisiblePassword: boolean;
 }
 
@@ -24,9 +42,9 @@ class SignInForm extends React.PureComponent<Props, State> {
   private passwordInput = React.createRef<HTMLInputElement>();
 
   public state: State = {
-    email: null,
+    email: '',
     isCorrectEmail: false,
-    password: null,
+    password: '',
     isVisiblePassword: false,
   }
 
@@ -41,7 +59,6 @@ class SignInForm extends React.PureComponent<Props, State> {
 
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
-    const { submitButtonText } = this.props;
     const { isVisiblePassword, password, isCorrectEmail } = this.state;
 
     return (
@@ -80,7 +97,7 @@ class SignInForm extends React.PureComponent<Props, State> {
           <Link to='passwordReset' className={b('password-reset')} >Восстановить пароль</Link>
 
           <span className={b('item')}>
-            <button className={b('submit')} type="submit" value={submitButtonText} onClick={this.handleFormSubmit} disabled={!isCorrectEmail || !password}>
+            <button className={b('submit')} type="submit" onClick={this.handleFormSubmit} disabled={!isCorrectEmail || !password}>
               Войти
             </button>
           </span>
@@ -97,7 +114,7 @@ class SignInForm extends React.PureComponent<Props, State> {
   @autobind
   private handleFormSubmit() {
     const { email, password } = this.state;
-    console.log('SignInForm', email, password);
+    this.props.signIn({ email, password });
   }
 
   @autobind
@@ -128,4 +145,6 @@ class SignInForm extends React.PureComponent<Props, State> {
   }
 }
 
-export { SignInForm };
+const connectedComponent = connect(mapState, mapDispatch)(SignInForm);
+
+export { connectedComponent as SignInForm };

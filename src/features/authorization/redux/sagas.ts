@@ -1,56 +1,61 @@
-// import { put, call, all, takeLatest } from 'redux-saga/effects';
-// import { SagaIterator } from 'redux-saga';
+import { put, call, all, takeLatest } from 'redux-saga/effects';
+import { SagaIterator } from 'redux-saga';
 
-// import { IDependencies } from 'shared/types/app';
-// import { IDetailedGithubUser } from 'shared/types/models';
-// import { IUsersSearchResults } from 'shared/types/githubSearch';
-// import { getErrorMsg } from 'shared/helpers';
-// import { actionCreators as notificationActionCreators } from 'services/notification';
+import { IDependencies } from 'shared/types/app';
+import { getErrorMsg } from 'shared/helpers';
+import { actionCreators as notificationActionCreators } from 'services/notification';
 
-// import * as NS from '../namespace';
-// import * as actionCreators from './actionCreators';
+import * as NS from '../namespace';
+import * as actionCreators from './actionCreators';
 
-function getSaga(/* deps: IDependencies */) {
-//   const searchUserType: NS.ISearchUsers['type'] = 'USERS_SEARCH:SEARCH_USERS';
-//   const loadUserDetailsType: NS.ILoadUserDetails['type'] = 'USERS_SEARCH:LOAD_USER_DETAILS';
-//   return function* saga(): SagaIterator {
-//     yield all([
-//       takeLatest(searchUserType, executeSearchUsers, deps),
-//       takeLatest(loadUserDetailsType, executeLoadUserDetails, deps),
-//     ]);
-//   };
-// }
+function getSaga(deps: IDependencies) {
 
-// function* executeSearchUsers({ api }: IDependencies, { payload }: NS.ISearchUsers) {
-//   try {
-//     const { searchOptions, page } = payload;
-//     const { searchString, ...filters } = searchOptions;
-//     const searchUsersResults: IUsersSearchResults = yield call(
-//       api.searchUsers,
-//       searchString, filters,
-//       page,
-//     );
-//     yield put(actionCreators.searchUsersSuccess({ ...searchUsersResults, page }));
-//     if (searchUsersResults.data.length === 0) {
-//       yield put(notificationActionCreators.setNotification({ kind: 'error', text: 'No users found :(' }));
-//     }
-//   } catch (error) {
-//     const errorMsg = getErrorMsg(error);
-//     yield put(actionCreators.searchUsersFail(errorMsg));
-//     yield put(notificationActionCreators.setNotification({ kind: 'error', text: errorMsg }));
-//   }
-// }
+  const signUpType: NS.SignUp['type'] = 'AUTHORIZATION:SIGN_UP';
+  const signInType: NS.SignIn['type'] = 'AUTHORIZATION:SIGN_IN';
+  const passwordResetType: NS.PasswordReset['type'] = 'AUTHORIZATION:PASSWORD_RESET';
+  return function* saga(): SagaIterator {
+    yield all([
+      takeLatest(signUpType, executeSignUp, deps),
+      takeLatest(signInType, executeSignIn, deps),
+      takeLatest(passwordResetType, executePasswordReset, deps),
+    ]);
+  };
+}
 
-// function* executeLoadUserDetails({ api }: IDependencies, { payload }: NS.ILoadUserDetails) {
-//   try {
-//     yield put(actionCreators.resetUserDetails());
-//     const userDetails: IDetailedGithubUser = yield call(api.loadUserDetails, payload);
-//     yield put(actionCreators.loadUserDetailsSuccess(userDetails));
-//   } catch (error) {
-//     const errorMsg = getErrorMsg(error);
-//     yield put(actionCreators.loadUserDetailsFail(errorMsg));
-//     yield put(notificationActionCreators.setNotification({ kind: 'error', text: errorMsg }));
-//   }
+function* executeSignUp({ api }: IDependencies, { payload }: NS.SignUp) {
+  try {
+    yield put(actionCreators.signUp(payload));
+    yield call(api.signUp, payload);
+    yield put(actionCreators.signUpSuccess());
+  } catch (error) {
+    const errorMsg = getErrorMsg(error);
+    yield put(actionCreators.signUpFail(errorMsg));
+    yield put(notificationActionCreators.setNotification({ kind: 'error', text: errorMsg }));
+  }
+}
+
+function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
+  try {
+    yield put(actionCreators.signIn(payload));
+    yield call(api.signIn, payload);
+    yield put(actionCreators.signInSuccess());
+  } catch (error) {
+    const errorMsg = getErrorMsg(error);
+    yield put(actionCreators.signInFail(errorMsg));
+    yield put(notificationActionCreators.setNotification({ kind: 'error', text: errorMsg }));
+  }
+}
+
+function* executePasswordReset({ api }: IDependencies, { payload }: NS.PasswordReset) {
+  try {
+    yield put(actionCreators.passwordReset(payload));
+    yield call(api.passwordReset, payload);
+    yield put(actionCreators.passwordResetSuccess());
+  } catch (error) {
+    const errorMsg = getErrorMsg(error);
+    yield put(actionCreators.passwordResetFail(errorMsg));
+    yield put(notificationActionCreators.setNotification({ kind: 'error', text: errorMsg }));
+  }
 }
 
 export { getSaga };

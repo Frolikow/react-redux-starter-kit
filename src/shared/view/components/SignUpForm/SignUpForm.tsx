@@ -1,19 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, FormRenderProps } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import block from 'bem-cn';
 import { autobind } from 'core-decorators';
 
+import { selectors, actionCreators } from 'features/authorization/redux';
+import { IAppReduxState } from 'shared/types/app';
+import { User } from 'shared/types/models';
 import './SignUpForm.scss';
 
-type Props = {
-  submitButtonText?: string;
-}
+type Props = StateProps & IActionProps;
+
+type IActionProps = typeof mapDispatch;
 
 type State = {
   isVisiblePassword: boolean;
-  email: string | null;
-  password: string | null;
+  email: string;
+  password: string;
   unsubscribe: boolean;
   passwordOptions: PasswordOptions;
 }
@@ -25,6 +29,19 @@ type PasswordOptions = {
   hasMinimumLength: boolean;
 }
 
+type StateProps = {
+  user: User;
+}
+
+function mapState(state: IAppReduxState): StateProps {
+  return {
+    user: selectors.selectUser(state),
+  };
+}
+
+const mapDispatch = {
+  signUp: actionCreators.signUp,
+};
 
 const b = block('sign-up-form');
 
@@ -33,8 +50,8 @@ class SignUpForm extends React.PureComponent<Props, State> {
 
   public state: State = {
     isVisiblePassword: false,
-    email: null,
-    password: null,
+    email: '',
+    password: '',
     unsubscribe: false,
     passwordOptions: {
       hasOneLowercaseLetter: false,
@@ -55,7 +72,6 @@ class SignUpForm extends React.PureComponent<Props, State> {
 
   @autobind
   private renderForm({ handleSubmit }: FormRenderProps) {
-    const { submitButtonText } = this.props;
     const { isVisiblePassword, passwordOptions: {
       hasOneLowercaseLetter,
       hasOneUppercaseLetter,
@@ -111,7 +127,6 @@ class SignUpForm extends React.PureComponent<Props, State> {
             <button
               className={b('submit')}
               type="submit"
-              value={submitButtonText}
               onClick={this.handleFormSubmit}
               disabled={Object.values(this.state.passwordOptions).some(i => i === false)}
             >
@@ -142,13 +157,14 @@ class SignUpForm extends React.PureComponent<Props, State> {
 
   @autobind
   private handleFormSubmit() {
-    const { email, password, unsubscribe } = this.state;
-    console.log('SignUpForm', email, password, unsubscribe);
+    const { email, password } = this.state;
+    this.props.signUp({ email, password });
   }
 
   @autobind
   private handleUnsubscribeChange(event: any) {
     this.setState({ unsubscribe: event.target.checked });
+    console.log(this.props)
   }
 
   @autobind
@@ -179,4 +195,6 @@ class SignUpForm extends React.PureComponent<Props, State> {
   }
 }
 
-export { SignUpForm };
+const connectedComponent = connect(mapState, mapDispatch)(SignUpForm);
+
+export { connectedComponent as SignUpForm };

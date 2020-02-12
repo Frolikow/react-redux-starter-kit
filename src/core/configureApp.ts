@@ -3,6 +3,8 @@ import * as allModules from 'modules';
 import { ReducersMap } from 'shared/types/redux';
 import { reduxEntry as themeProviderRE } from 'services/theme';
 import { reduxEntry as notificationReduxEntry } from 'services/notification';
+import { reduxEntry as userReduxEntry } from 'features/authorization';
+
 import { IAppData, IModule, RootSaga, IAppReduxState, IReduxEntry } from 'shared/types/app';
 import { initializeI18n } from 'services/i18n/i18nContainer';
 
@@ -23,6 +25,7 @@ function configureApp(data?: IAppData): IAppData {
   const sharedReduxEntries: IReduxEntry[] = [
     themeProviderRE,
     notificationReduxEntry,
+    userReduxEntry,
   ];
 
   const connectedSagas: RootSaga[] = [];
