@@ -1,16 +1,12 @@
 import React from 'react';
 import block from 'bem-cn';
-// import {  RouteComponentProps } from 'react-router-dom';
-
-// import {  ITranslationProps } from 'services/i18n';
-
 import './Layout.scss';
 
 interface IOwnProps {
   title?: string;
 }
 
-type IProps = IOwnProps/*  & RouteComponentProps & ITranslationProps; */
+type IProps = IOwnProps;
 
 const b = block('layout');
 
