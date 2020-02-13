@@ -9,7 +9,6 @@ import * as NS from '../namespace';
 import * as actionCreators from './actionCreators';
 
 function getSaga(deps: IDependencies) {
-
   const signUpType: NS.SignUp['type'] = 'AUTHORIZATION:SIGN_UP';
   const signInType: NS.SignIn['type'] = 'AUTHORIZATION:SIGN_IN';
   const passwordResetType: NS.PasswordReset['type'] = 'AUTHORIZATION:PASSWORD_RESET';
@@ -23,8 +22,8 @@ function getSaga(deps: IDependencies) {
 }
 
 function* executeSignUp({ api }: IDependencies, { payload }: NS.SignUp) {
+  console.log('executeSignUp')
   try {
-    yield put(actionCreators.signUp(payload));
     yield call(api.signUp, payload);
     yield put(actionCreators.signUpSuccess());
   } catch (error) {
@@ -35,8 +34,9 @@ function* executeSignUp({ api }: IDependencies, { payload }: NS.SignUp) {
 }
 
 function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
+  console.log('executeSignIn')
   try {
-    yield put(actionCreators.signIn(payload));
+    // yield put(actionCreators.signIn(payload));
     yield call(api.signIn, payload);
     yield put(actionCreators.signInSuccess());
   } catch (error) {
@@ -47,8 +47,9 @@ function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
 }
 
 function* executePasswordReset({ api }: IDependencies, { payload }: NS.PasswordReset) {
+  console.log('executePasswordReset')
   try {
-    yield put(actionCreators.passwordReset(payload));
+    // yield put(actionCreators.passwordReset(payload));
     yield call(api.passwordReset, payload);
     yield put(actionCreators.passwordResetSuccess());
   } catch (error) {

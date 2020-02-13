@@ -1,6 +1,6 @@
 import { makeFeatureEntry } from 'shared/helpers/makeFeatureEntry';
 
-import { actionCreators, selectors, reducer, getSaga } from './redux';
+import { actionCreators, selectors, reducer/* , getSaga */ } from './redux';
 import * as containers from './view/containers';
 
 const entry = makeFeatureEntry({
@@ -9,7 +9,7 @@ const entry = makeFeatureEntry({
   selectors,
   reduxEntry: {
     reducers: { usersSearch: reducer },
-    sagas: [getSaga],
+    // sagas: [getSaga],
   },
 });
 

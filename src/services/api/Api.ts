@@ -1,85 +1,54 @@
 import { autobind } from 'core-decorators';
 
-import {
-  IUsersSearchFilters, IRepositoriesSearchFilters, IUsersSearchResults, IRepositoriesSearchResults,
-} from 'shared/types/githubSearch';
+import { User } from 'shared/types/models';
 
-import * as FB from 'firebase/app';
+import app from "firebase/app";
+import "firebase/firestore";
 
-import { SearchUserResponse, IDetailedServerUser, SearchRepositoriesResponse } from './types';
-import {
-  constructUsersSearchQuery, getTotalPagesFromLinkHeader,
-  constructRepositoriesSearchQuery, getTotalResults,
-} from './helpers';
-import { convertUser, convertUserDetails, convertRepository } from './converters';
-import { HttpActions } from './HttpActions';
+app.initializeApp({
+  apiKey: "AIzaSyBXIr4pTDbrfJFIny_H1a5AiNxCCgt1-s4",
+  authDomain: "frol-auth-5c0e9.firebaseapp.com",
+  databaseURL: "https://frol-auth-5c0e9.firebaseio.com",
+  projectId: "frol-auth-5c0e9",
+  storageBucket: "frol-auth-5c0e9.appspot.com",
+  messagingSenderId: "962457563760",
+  appId: "1:962457563760:web:4665a41ef3705ca5f3fab5"
+});
+
+const db = app.firestore();
 
 class Api {
-  private actions: HttpActions;
-
-  private headers = {
-    get: {
-      Accept: 'application/vnd.github.v3+json',
-    },
-  };
-
-  constructor() {
-    this.actions = new HttpActions('https://api.github.com/', this.headers);
-  }
 
   @autobind
-  public async searchUsers(
-    searchString: string, filters: IUsersSearchFilters, page: number,
-  ): Promise<IUsersSearchResults> {
-    const URL = `/search/users?q=${constructUsersSearchQuery(searchString, filters, page)}`;
-    const response = await this.actions.get<SearchUserResponse>(URL);
-    const users = response.data.items;
-    const totalPages = getTotalPagesFromLinkHeader(response.headers.link);
-    return {
-      totalPages,
-      data: users.map(convertUser),
-      totalResults: getTotalResults(response.data.total_count),
-    };
-  }
-
-  @autobind
-  public async loadUserDetails(username: string) {
-    const URL = `/users/${username}`;
-    const response = await this.actions.get<IDetailedServerUser>(URL);
-    return convertUserDetails(response.data);
-  }
-
-  @autobind
-  public async searchRepositories(
-    searchString: string, options: IRepositoriesSearchFilters, page: number,
-  ): Promise<IRepositoriesSearchResults> {
-    const URL = `/search/repositories?q=${constructRepositoriesSearchQuery(searchString, options, page)}`;
-    const response = await this.actions.get<SearchRepositoriesResponse>(URL);
-    const repositories = response.data.items;
-    const totalPages = getTotalPagesFromLinkHeader(response.headers.link);
-    return {
-      totalPages,
-      data: repositories.map(convertRepository),
-      totalResults: getTotalResults(response.data.total_count),
-    };
-  }
-
-  public async signUp() {
-    console.log('signUp')
-    console.log(FB);
-    return 'test';
+  public async signUp(payload: User) {
+    console.log('payload ', payload);
+    let users: string[] = [];
+    db.collection("test").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        users.push(doc.data()['email']);
+      });
+    });
+    // console.log('users ', users);
+    // db.collection("test").add({
+    //   email: payload.email,
+    //   password: payload.password,
+    // })
+    //   .then(function (docRef: any) {
+    //     console.log("then...Document written with ID: ", docRef.id);
+    //   })
+    //   .catch(function (error: any) {
+    //     console.error("catch...Error adding document: ", error);
+    //   });
   }
 
   public async signIn() {
-    console.log('signIn')
-    console.log(FB);
-    return 'test';
+    // console.log('signIn')
+    // console.log(FB);
   }
 
   public async passwordReset() {
-    console.log('passwordReset')
-    console.log(FB);
-    return 'test';
+    // console.log('passwordReset')
+    // console.log(FB);
   }
 
 }
