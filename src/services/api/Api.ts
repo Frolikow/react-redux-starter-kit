@@ -1,9 +1,11 @@
-import { autobind } from 'core-decorators';
+import app from "firebase/app";
+import "firebase/firestore";
 
 import { User } from 'shared/types/models';
 
-import app from "firebase/app";
-import "firebase/firestore";
+type StringObject = {
+  [key: string]: string;
+}
 
 app.initializeApp({
   apiKey: "AIzaSyBXIr4pTDbrfJFIny_H1a5AiNxCCgt1-s4",
@@ -18,39 +20,50 @@ app.initializeApp({
 const db = app.firestore();
 
 class Api {
+  public async signUp(payload: User, userList: string[]) {
+    if (userList.some(user => user === payload.email)) {
+      throw 'Вы уже зарегистрированы!';
+    } else {
+      db.collection("users").doc(payload.email).set({
+        password: payload.password,
+      });
+    }
+  }
 
-  @autobind
-  public async signUp(payload: User) {
-    console.log('payload ', payload);
-    let users: string[] = [];
-    db.collection("test").get().then((querySnapshot) => {
+  public async getUsers() {
+    let users: StringObject = {}
+    await db.collection("users").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        users.push(doc.data()['email']);
+        users[doc.id] = doc.data()['password']
       });
     });
-    // console.log('users ', users);
-    // db.collection("test").add({
-    //   email: payload.email,
-    //   password: payload.password,
-    // })
-    //   .then(function (docRef: any) {
-    //     console.log("then...Document written with ID: ", docRef.id);
-    //   })
-    //   .catch(function (error: any) {
-    //     console.error("catch...Error adding document: ", error);
-    //   });
+    return users;
   }
 
-  public async signIn() {
-    // console.log('signIn')
-    // console.log(FB);
+  public async signIn(payload: User, users: StringObject) {
+    if (Object.keys(users).indexOf(payload.email) !== -1) {
+      if (users[payload.email] === payload.password) {
+        console.log('success signIn ', payload);
+      } else {
+        throw 'Неверный пароль';
+      }
+    } else {
+      throw 'Пользователь не найден';
+    }
   }
 
-  public async passwordReset() {
-    // console.log('passwordReset')
-    // console.log(FB);
-  }
+  public async passwordReset(payload: string, users: StringObject) {
+    if (Object.keys(users).indexOf(payload) !== -1) {
+      const newPass = users[payload].split('').reverse().join('')
 
+      await db.collection("users").doc(payload).set({
+        password: newPass,
+      })
+      return newPass;
+    } else {
+      throw 'Пользователь не найден';
+    }
+  }
 }
 
 export { Api };

@@ -22,10 +22,11 @@ function getSaga(deps: IDependencies) {
 }
 
 function* executeSignUp({ api }: IDependencies, { payload }: NS.SignUp) {
-  console.log('executeSignUp')
   try {
-    yield call(api.signUp, payload);
+    const users = yield call(api.getUsers);
+    yield call(api.signUp, payload, Object.keys(users));
     yield put(actionCreators.signUpSuccess());
+    yield put(notificationActionCreators.setNotification({ kind: 'info', text: 'Регистрация успешна! Можете войти используя свои данные.' }));
   } catch (error) {
     const errorMsg = getErrorMsg(error);
     yield put(actionCreators.signUpFail(errorMsg));
@@ -34,11 +35,11 @@ function* executeSignUp({ api }: IDependencies, { payload }: NS.SignUp) {
 }
 
 function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
-  console.log('executeSignIn')
   try {
-    // yield put(actionCreators.signIn(payload));
-    yield call(api.signIn, payload);
+    const users = yield call(api.getUsers);
+    yield call(api.signIn, payload, users);
     yield put(actionCreators.signInSuccess());
+    yield put(notificationActionCreators.setNotification({ kind: 'info', text: 'Успех!' }));
   } catch (error) {
     const errorMsg = getErrorMsg(error);
     yield put(actionCreators.signInFail(errorMsg));
@@ -47,11 +48,11 @@ function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
 }
 
 function* executePasswordReset({ api }: IDependencies, { payload }: NS.PasswordReset) {
-  console.log('executePasswordReset')
   try {
-    // yield put(actionCreators.passwordReset(payload));
-    yield call(api.passwordReset, payload);
+    const users = yield call(api.getUsers);
+    const password = yield call(api.passwordReset, payload, users);
     yield put(actionCreators.passwordResetSuccess());
+    yield put(notificationActionCreators.setNotification({ kind: 'info', text: `Теперь у вас пароль такой: ${password}` }));
   } catch (error) {
     const errorMsg = getErrorMsg(error);
     yield put(actionCreators.passwordResetFail(errorMsg));

@@ -90,7 +90,7 @@ class PasswordResetForm extends React.PureComponent<Props, State> {
   @autobind
   private handleFormSubmit() {
     const { email } = this.state;
-    this.props.passwordReset({ email })
+    this.props.passwordReset(email)
   }
 
   @autobind

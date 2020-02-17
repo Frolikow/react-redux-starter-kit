@@ -13,7 +13,7 @@ export type SignIn = IAction<'AUTHORIZATION:SIGN_IN', User>;
 export type SignInSuccess = IPlainAction<'AUTHORIZATION:SIGN_IN_SUCCESS'>;
 export type SignInFail = IPlainFailAction<'AUTHORIZATION:SIGN_IN_FAIL', string>;
 
-export type PasswordReset = IAction<'AUTHORIZATION:PASSWORD_RESET', Pick<User, 'email'>>;
+export type PasswordReset = IAction<'AUTHORIZATION:PASSWORD_RESET', string>;
 export type PasswordResetSuccess = IPlainAction<'AUTHORIZATION:PASSWORD_RESET_SUCCESS'>;
 export type PasswordResetFail = IPlainFailAction<'AUTHORIZATION:PASSWORD_RESET_FAIL', string>;
 
