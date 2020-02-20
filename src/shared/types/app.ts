@@ -40,8 +40,6 @@ export interface IAppReduxState {
   theme: ThemeProviderNS.IReduxState;
   notification: NotificationNamespace.IReduxState;
   // features
-  usersSearch: features.usersSearch.namespace.IReduxState;
-  repositoriesSearch: features.repositoriesSearch.namespace.IReduxState;
   profile: features.profile.namespace.IReduxState;
   user: features.authorization.namespace.IReduxState;
 }

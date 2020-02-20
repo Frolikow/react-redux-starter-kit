@@ -14,10 +14,10 @@ import {
   fieldNames, validateName, validateNickname, validateBio,
 } from './constants';
 import { ProfileAvatar } from '../../components';
-import { IProfileEditFormFields } from '../../../namespace';
 import { actionCreators, selectors } from './../../../redux';
 
 import './ProfileEdit.scss';
+import { Link } from 'react-router-dom';
 
 interface IStateProps {
   profile: IProfile;
@@ -34,7 +34,7 @@ function mapState(state: IAppReduxState): IStateProps {
 }
 
 const mapDispatch = {
-  saveProfile: actionCreators.saveProfile,
+  logOutProfile: actionCreators.logOutProfile,
   setNotification: notificationActionCreators.setNotification,
 };
 
@@ -92,19 +92,23 @@ class ProfileEditComponent extends React.PureComponent<IProps> {
               t={t}
             />
           </div>
-          <div className={b('button')}>
-            <Button variant="outlined" type="submit">{t(tKeys.shared.save)}</Button>
-          </div>
+          <Link to='authorization/signIn'>
+            <div className={b('button')}>
+              <Button variant="outlined" type="submit">
+                {t(tKeys.features.profile.logOut)}
+              </Button>
+            </div>
+          </Link>
         </div>
       </form>
     );
   }
 
   @autobind
-  private handleFormSubmit(values: IProfileEditFormFields) {
-    const { saveProfile, setNotification, t } = this.props;
-    saveProfile(values);
-    setNotification({ kind: 'info', text: t(tKeys.shared.notifications.saved) });
+  private handleFormSubmit() {
+    const { logOutProfile } = this.props;
+    console.log('test');
+    logOutProfile();
   }
 }
 

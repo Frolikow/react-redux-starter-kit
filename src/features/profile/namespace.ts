@@ -1,5 +1,5 @@
 import { IProfile } from 'shared/types/models';
-import { IAction } from 'shared/types/redux';
+import { IAction, IPlainAction } from 'shared/types/redux';
 
 export interface IReduxState {
   edit: {
@@ -9,6 +9,6 @@ export interface IReduxState {
 
 export type IProfileEditFormFields = IProfile;
 
-export type ISaveProfile = IAction<'PROFILE:SAVE_PROFILE', IProfileEditFormFields>;
+export type ILogOutProfile = IPlainAction<'PROFILE:LOGOUT_PROFILE'>;
 
-export type IAction = ISaveProfile;
+export type IAction = ILogOutProfile;

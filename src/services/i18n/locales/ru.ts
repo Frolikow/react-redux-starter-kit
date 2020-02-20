@@ -33,6 +33,7 @@ export const ru = {
       yearsOld_1: '{{count}} года',
       yearsOld_2: '{{count}} год',
       edit: 'Редактировать',
+      logOut: 'Выйти',
     },
     repositoriesSearch: {
       minStars: 'Мин. звезд',

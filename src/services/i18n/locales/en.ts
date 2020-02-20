@@ -37,6 +37,7 @@ export const en = {
       editProfile: 'Edit profile',
       yearsOld: '{{count}} y.o.',
       edit: 'Edit',
+      logOut: 'Exit',
     },
     repositoriesSearch: {
       minStars: 'Min stars',

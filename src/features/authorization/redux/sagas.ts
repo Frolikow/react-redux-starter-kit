@@ -38,7 +38,7 @@ function* executeSignIn({ api }: IDependencies, { payload }: NS.SignIn) {
   try {
     const users = yield call(api.getUsers);
     yield call(api.signIn, payload, users);
-    yield put(actionCreators.signInSuccess());
+    yield put(actionCreators.signInSuccess(payload));
     yield put(notificationActionCreators.setNotification({ kind: 'info', text: 'Успех!' }));
   } catch (error) {
     const errorMsg = getErrorMsg(error);

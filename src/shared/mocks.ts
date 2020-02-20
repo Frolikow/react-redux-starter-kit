@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { IProfile, IGithubUser, IDetailedGithubUser, IRepository } from 'shared/types/models';
+import { IProfile } from 'shared/types/models';
 
 import { IFeatureEntry } from './types/app';
 
@@ -17,35 +17,6 @@ export const profile: IProfile = {
   name: 'Name name',
   bio: 'profile bio',
   avatarURL: 'https://the-url.com',
-};
-
-export const githubUser: IGithubUser = {
-  id: 1,
-  username: 'username',
-  avatarURL: 'http://the-url.com',
-  htmlURL: 'http://the-url.com',
-};
-
-export const detailedGithubUser: IDetailedGithubUser = {
-  ...githubUser,
-  followersNumber: 12,
-  followingNumber: 12,
-  reposNumber: 12,
-  realName: 'The real name',
-  location: 'Nowhere',
-};
-
-export const repository: IRepository = {
-  id: 1,
-  openIssuesNumber: 1,
-  starsNumber: 1,
-  forksNumber: 1,
-  description: 'description',
-  name: 'name',
-  htmlURL: 'http://the-url.com',
-  language: 'en',
-  updatedAt: '05/05/2005',
-  owner: githubUser,
 };
 
 export function makeMockEntry<T extends IFeatureEntry>(
