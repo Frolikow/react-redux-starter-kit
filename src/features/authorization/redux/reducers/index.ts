@@ -4,5 +4,5 @@ import { editReducer } from './edit';
 import * as NS from '../../namespace';
 
 export const reducer = combineReducers<NS.IReduxState>({
-  user: editReducer,
+  data: editReducer,
 });

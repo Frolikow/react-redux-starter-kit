@@ -1,7 +1,7 @@
 import * as NS from '../../namespace';
 import { initial } from '../initial';
 
-function editReducer(state: NS.IReduxState['user'] = initial.user, action: NS.Action): NS.IReduxState['user'] {
+function editReducer(state: NS.IReduxState['data'] = initial.data, action: NS.Action): NS.IReduxState['data'] {
   switch (action.type) {
     case 'AUTHORIZATION:SIGN_UP_SUCCESS': {
       return {
@@ -12,8 +12,11 @@ function editReducer(state: NS.IReduxState['user'] = initial.user, action: NS.Ac
     case 'AUTHORIZATION:SIGN_IN_SUCCESS': {
       return {
         ...state,
-        email: action.payload.email,
-        password: action.payload.password,
+        user: {
+          email: action.payload.email,
+          password: action.payload.password,
+        },
+        isAuth: true,
       };
     }
 
@@ -26,8 +29,11 @@ function editReducer(state: NS.IReduxState['user'] = initial.user, action: NS.Ac
     case 'AUTHORIZATION:SIGN_OUT': {
       return {
         ...state,
-        email: '',
-        password: '',
+        user: {
+          email: '',
+          password: '',
+        },
+        isAuth: false,
       };
     }
     default:

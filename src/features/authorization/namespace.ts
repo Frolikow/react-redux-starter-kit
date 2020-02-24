@@ -2,7 +2,10 @@ import { IAction, IPlainAction, IPlainFailAction } from 'shared/types/redux';
 import { User } from 'shared/types/models';
 
 export interface IReduxState {
-  user: User,
+  data: {
+    user: User,
+    isAuth: boolean,
+  }
 }
 
 export type SignUp = IAction<'AUTHORIZATION:SIGN_UP', User>;

@@ -1,10 +1,13 @@
 import { IReduxState } from '../namespace';
 
 const initial: IReduxState = {
-  user: {
-    email: '',
-    password: '',
-  },
+  data: {
+    user: {
+      email: '',
+      password: '',
+    },
+    isAuth: false,
+  }
 };
 
 export { initial };
