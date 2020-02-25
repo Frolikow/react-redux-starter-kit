@@ -17,7 +17,6 @@ import { ProfileAvatar } from '../../components';
 import { actionCreators, selectors } from './../../../redux';
 
 import './ProfileEdit.scss';
-import { Link } from 'react-router-dom';
 
 interface IStateProps {
   profile: IProfile;
@@ -92,13 +91,11 @@ class ProfileEditComponent extends React.PureComponent<IProps> {
               t={t}
             />
           </div>
-          <Link to='authorization/signIn'>
-            <div className={b('button')}>
-              <Button variant="outlined" type="submit">
-                {t(tKeys.features.profile.logOut)}
-              </Button>
-            </div>
-          </Link>
+          <div className={b('button')}>
+            <Button variant="outlined" type="submit">
+              {t(tKeys.features.profile.logOut)}
+            </Button>
+          </div>
         </div>
       </form>
     );
